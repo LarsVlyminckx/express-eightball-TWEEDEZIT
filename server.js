@@ -4,8 +4,8 @@ const bodyParser = require('body-parser');
 var LocalStorage = require('node-localstorage').LocalStorage;
 
 
-app.listen(process.env.PORT || 3000, () => {
-  console.log('Listening on port 3000');
+app.listen(process.env.PORT || 3005, () => {
+  console.log('Listening on port 3005');
 });
 
 app.set('view engine', 'ejs');
@@ -34,7 +34,7 @@ app.post('/search', (req, res) => {
 	if (localStorage.getItem(question) != null) {
 		console.log("GEVONDEN")
 		answer = localStorage.getItem(question);
-		res.render('search_result.ejs', {result: answer});
+		res.render('search_result.ejs', {result: answer, question: question});
 	}
 	else {
 		question = req.body.question;
@@ -48,7 +48,7 @@ app.post('/search', (req, res) => {
 		
 		localStorage.setItem(question, answer);
 		
-		res.render('search_result.ejs', {result: answer});
+		res.render('search_result.ejs', {result: answer, question: question});
 	}
 })
 
