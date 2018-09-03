@@ -24,9 +24,6 @@ app.get('/', (req, res) => {
 	if (typeof localStorage === "undefined" || localStorage === null) {
 		  localStorage = new LocalStorage('./scratch');
 		}
-		 
-		localStorage.setItem('myFirstKey', 'myFirstValue');
-
 })
 
 app.post('/search', (req, res) => {
@@ -53,4 +50,9 @@ app.post('/search', (req, res) => {
 		
 		res.render('search_result.ejs', {result: answer});
 	}
+})
+
+app.get('/clear', (req, res) => {
+	localStorage.clear()
+	res.redirect('/')
 })
