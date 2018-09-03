@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+var LocalStorage = require('node-localstorage').LocalStorage;
+
 
 app.listen(process.env.PORT || 3000, () => {
   console.log('Listening on port 3000');
@@ -19,18 +21,36 @@ var answers = ["It is certain.", "It is decidedly so.", "Without a doubt.", "Yes
 
 app.get('/', (req, res) => {
 	res.render('search.ejs', {result: null});
+	if (typeof localStorage === "undefined" || localStorage === null) {
+		  localStorage = new LocalStorage('./scratch');
+		}
+		 
+		localStorage.setItem('myFirstKey', 'myFirstValue');
+
 })
 
-app.post('/', (req, res) => {
+app.post('/search', (req, res) => {
 	
+	answer = '';
 	question = req.body.question;
 	
-	max = answers.length - 1;
-	min = 0;
-	range = max - min + 1;		
-	rnd = (Math.random() * range) + min;
-	
-	
-	console.log(answers[parseInt(rnd, 10)]);
-	res.render('search.ejs', {result: question});
+	if (localStorage.getItem(question) != null) {
+		console.log("GEVONDEN")
+		answer = localStorage.getItem(question);
+		res.render('search_result.ejs', {result: answer});
+	}
+	else {
+		question = req.body.question;
+		
+		max = answers.length - 1;
+		min = 0;
+		range = max - min + 1;		
+		rnd = (Math.random() * range) + min;
+		
+		answer = answers[parseInt(rnd, 10)]
+		
+		localStorage.setItem(question, answer);
+		
+		res.render('search_result.ejs', {result: answer});
+	}
 })

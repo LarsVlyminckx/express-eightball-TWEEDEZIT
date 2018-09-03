@@ -9,7 +9,7 @@
 
   <h2>Ask question posts</h2>
 
-  <form action='/' method='POST'>
+  <form action='/search' method='POST'>
     Question: <input type='text' name='question' value="Is this a question"><br /><br />
     <button type='submit'>Ask!</button>
   </form>
@@ -17,11 +17,5 @@
   <br />
   <br />
   <br />
-
-<% if (result !== null){ %>
- 	<%= result %>
- 	<%} else { %>
-        <h1> NO QUESTION ASKED</h1>
-    <% } %>
 </body>
 </html>
